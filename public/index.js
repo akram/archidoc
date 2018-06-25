@@ -1,40 +1,97 @@
+Survey
+    .StylesManager
+    .applyTheme("default");
+
 var json = {
-    questionTitleTemplate: "{no}) {title} {require}:",
-    questionStartIndex: "A",
-    requiredText: "(*)",
-    pages: [
+    questions: [
         {
-            title: "This is the page {pageno} of {pagecount}.",
-            questions: [
+            type: "matrixdynamic",
+            name: "frameworksRateMatrix",
+            "minRowCount": 4,
+            "maxRowCount": 4,
+            "valueName": "frameworksRate",
+            title: "Please tells us about JavaScript frameworks you are using (Matrix Dynamic)",
+            columns: [
                 {
-                    type: "text",
-                    name: "name",
-                    title: "Please type your name",
-                    isRequired: true
+                    "name": "framework",
+                    "title": "Framework",
+                    "cellType": "text",
+                    "readOnly": true
                 }, {
-                    type: "text",
-                    name: "email",
-                    title: "Please type your e-mail",
-                    isRequired: true,
-                    validators: [
+                    name: "using",
+                    title: "Do you use it?",
+                    "isRequired": true,
+                    choices: [
+                        "Yes", "No"
+                    ],
+                    cellType: "radiogroup"
+                }, {
+                    name: "experience",
+                    title: "How long do you use it?",
+                    "visibleIf": "{row.using} = 'Yes'",
+                    "isRequired": true,
+                    choices: [
                         {
-                            type: "email"
+                            value: 5,
+                            text: "3-5 years"
+                        }, {
+                            value: 2,
+                            text: "1-2 years"
+                        }, {
+                            value: 1,
+                            text: "less then a year"
                         }
                     ]
                 }
             ]
         }, {
-            title: "This is the page {pageno} of {pagecount}.",
-            questions: [
+            type: "paneldynamic",
+            name: "frameworksRatePanel",
+            "minPanelCount": 4,
+            "maxPanelCount": 4,
+            "valueName": "frameworksRate",
+            title: "Please tells us about JavaScript frameworks you are using (Panel Dynamic)",
+            templateElements: [
                 {
-                    type: "comment",
-                    name: "comment",
-                    title: "{name}, please tell us what is on your mind"
+                    "name": "framework",
+                    "title": "Framework",
+                    "type": "text",
+                    "readOnly": true
+                }, {
+                    name: "using",
+                    title: "Do you use it?",
+                    "type": "radiogroup",
+                    "colCount": 0,
+                    "startWithNewLine": false,
+                    "isRequired": true,
+                    choices: [
+                        "Yes", "No"
+                    ],
+                    cellType: "radiogroup"
+                }, {
+                    name: "experience",
+                    title: "How long do you use it?",
+                    "type": "dropdown",
+                    "visibleIf": "{panel.using} = 'Yes'",
+                    "isRequired": true,
+                    "startWithNewLine": false,
+                    choices: [
+                        {
+                            value: 5,
+                            text: "3-5 years"
+                        }, {
+                            value: 2,
+                            text: "1-2 years"
+                        }, {
+                            value: 1,
+                            text: "less then a year"
+                        }
+                    ]
                 }
             ]
         }
-    ],
-    completedHtml: "<p><h4>Thank you for sharing this information with us.</h4></p><p>Your name is: <b>{name}</b></p><p>Your email is: <b>{email}</b></p><p>This is what is on your mind:</p><p>{comment}</p>"
+
+    ]
 };
 
 window.survey = new Survey.Model(json);
@@ -47,6 +104,19 @@ survey
             .innerHTML = "result: " + JSON.stringify(result.data);
     });
 
-$("#surveyElement").Survey({model: survey});
+survey.data = {
+    'frameworksRate': [
+        {
+            'framework': 'angular v1'
+        }, {
+            'framework': 'angular v2+'
+        }, {
+            'framework': 'react'
+        }, {
+            'framework': 'vue'
+        }
+    ]
+};
 
+$("#surveyElement").Survey({model: survey});
 
