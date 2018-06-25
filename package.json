@@ -10,9 +10,9 @@
     "express": "^4.13.4",
     "mocha": "^2.4.5",
     "mongodb": "^2.1.16",
-    "mongoose" : "~5.0.0",
+    "mongoose": "~5.0.0",
     "morgan": "^1.7.0",
-    "object-assign":"4.1.0"
+    "object-assign": "4.1.0"
   },
   "engine": {
     "node": "*",
@@ -33,6 +33,3 @@
   },
   "homepage": "http://github.com/akram/archidoc"
 }
-
-
-
